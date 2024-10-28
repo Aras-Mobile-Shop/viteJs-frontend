@@ -57,9 +57,8 @@ export function HomepageComponent() {
           >
             <div className="bg-white rounded-lg p-6 w-full max-w-md relative">
               <Button
-                variant="ghost"
                 size="icon"
-                className="absolute top-2 right-2"
+                className="absolute top-2 right-2 bg-red-500 text-black"
                 onClick={closeModal}
               >
                 <X className="h-4 w-4" />
