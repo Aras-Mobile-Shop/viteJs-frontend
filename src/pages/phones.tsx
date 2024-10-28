@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { v4 as uuidv4 } from "uuid";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+
+const API_URL = "http://localhost:5000/phones";
 
 interface PhoneFormData {
   model: string;
@@ -15,8 +17,11 @@ interface PhoneFormData {
   image: FileList;
 }
 
-interface Phone extends Omit<PhoneFormData, "image"> {
+interface Phone {
   id: string;
+  model: string;
+  description: string;
+  price: number;
   image: string;
 }
 
@@ -33,43 +38,46 @@ export function Admin() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   useEffect(() => {
-    const existingPhones = JSON.parse(localStorage.getItem("phones") || "[]");
-    setPhones(existingPhones);
+    fetchPhones();
   }, []);
 
-  const saveToLocalStorage = (updatedPhones: Phone[]) => {
-    localStorage.setItem("phones", JSON.stringify(updatedPhones));
-    setPhones(updatedPhones);
+  const fetchPhones = async () => {
+    try {
+      const response = await axios.get(API_URL);
+      setPhones(response.data);
+    } catch (error) {
+      console.error("Error fetching phones:", error);
+    }
   };
 
-  const onSubmit = (data: PhoneFormData) => {
-    const file = data.image[0];
-    const reader = new FileReader();
+  const onSubmit = async (data: PhoneFormData) => {
+    const formData = new FormData();
+    formData.append("model", data.model);
+    formData.append("description", data.description);
+    formData.append("price", data.price.toString());
+    formData.append("image", data.image[0]);
 
-    reader.onloadend = () => {
-      const newPhone = {
-        id: editingId || uuidv4(),
-        model: data.model,
-        description: data.description,
-        price: data.price,
-        image: reader.result as string,
-      };
+    try {
+      const response = editingId
+        ? await axios.put(`${API_URL}/${editingId}`, formData)
+        : await axios.post(API_URL, formData);
+      setPhones((prevPhones) =>
+        editingId
+          ? prevPhones.map((phone) =>
+              phone.id === editingId ? response.data : phone
+            )
+          : [...prevPhones, response.data]
+      );
 
-      const updatedPhones = editingId
-        ? phones.map((phone) => (phone.id === editingId ? newPhone : phone))
-        : [...phones, newPhone];
-
-      saveToLocalStorage(updatedPhones);
       toast.success(
         editingId ? "Phone updated successfully!" : "Phone added successfully!"
       );
       reset();
       setImagePreview(null);
       setEditingId(null);
-    };
-
-    if (file) {
-      reader.readAsDataURL(file);
+    } catch (error) {
+      console.error("Error saving phone:", error);
+      toast.error("An error occurred while saving phone data.");
     }
   };
 
@@ -81,10 +89,15 @@ export function Admin() {
     setImagePreview(phone.image);
   };
 
-  const handleDelete = (id: string) => {
-    const updatedPhones = phones.filter((phone) => phone.id !== id);
-    saveToLocalStorage(updatedPhones);
-    toast.success("Phone deleted successfully!");
+  const handleDelete = async (id: string) => {
+    try {
+      await axios.delete(`${API_URL}/${id}`);
+      setPhones((prevPhones) => prevPhones.filter((phone) => phone.id !== id));
+      toast.success("Phone deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting phone:", error);
+      toast.error("An error occurred while deleting the phone.");
+    }
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {

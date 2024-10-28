@@ -1,44 +1,59 @@
-import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { X } from 'lucide-react'
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { motion, AnimatePresence } from "framer-motion";
+import { X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface Phone {
-  id: string
-  model: string
-  description: string
-  price: number
-  image: string
+  id: string;
+  model: string;
+  description: string;
+  price: number;
+  image: string;
 }
 
 export function HomepageComponent() {
-  const [phones, setPhones] = useState<Phone[]>([])
-  const [selectedPhone, setSelectedPhone] = useState<Phone | null>(null)
+  const [phones, setPhones] = useState<Phone[]>([]);
+  const [selectedPhone, setSelectedPhone] = useState<Phone | null>(null);
 
   useEffect(() => {
-    const storedPhones = localStorage.getItem('phones')
-    if (storedPhones) {
-      setPhones(JSON.parse(storedPhones))
-    }
-  }, [])
+    const fetchPhones = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/phones");
+        setPhones(response.data);
+      } catch (error) {
+        console.error("Error fetching phones:", error);
+      }
+    };
+
+    fetchPhones();
+  }, []);
 
   const openModal = (phone: Phone) => {
-    setSelectedPhone(phone)
-  }
+    setSelectedPhone(phone);
+  };
 
   const closeModal = () => {
-    setSelectedPhone(null)
-  }
+    setSelectedPhone(null);
+  };
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Mobile Shop</h1>
       <div className="grid grid-cols-2 gap-4">
         {phones.map((phone) => (
-          <Card key={phone.id} className="cursor-pointer" onClick={() => openModal(phone)}>
+          <Card
+            key={phone.id}
+            className="cursor-pointer"
+            onClick={() => openModal(phone)}
+          >
             <CardContent className="p-4">
-              <img src={phone.image} alt={phone.model} className="w-full h-32 object-cover mb-2 rounded-md" />
+              <img
+                src={phone.image}
+                alt={phone.model}
+                className="w-full h-32 object-cover mb-2 rounded-md"
+              />
               <h2 className="font-semibold">{phone.model}</h2>
               <p className="text-sm text-gray-500 mt-1">${phone.price}</p>
             </CardContent>
@@ -63,8 +78,14 @@ export function HomepageComponent() {
               >
                 <X className="h-4 w-4" />
               </Button>
-              <img src={selectedPhone.image} alt={selectedPhone.model} className="w-full h-48 object-cover mb-4 rounded-md" />
-              <h2 className="text-xl font-semibold mb-2">{selectedPhone.model}</h2>
+              <img
+                src={selectedPhone.image}
+                alt={selectedPhone.model}
+                className="w-full h-48 object-cover mb-4 rounded-md"
+              />
+              <h2 className="text-xl font-semibold mb-2">
+                {selectedPhone.model}
+              </h2>
               <p className="text-gray-600 mb-4">{selectedPhone.description}</p>
               <p className="text-lg font-bold">${selectedPhone.price}</p>
             </div>
@@ -72,5 +93,5 @@ export function HomepageComponent() {
         )}
       </AnimatePresence>
     </div>
-  )
+  );
 }
