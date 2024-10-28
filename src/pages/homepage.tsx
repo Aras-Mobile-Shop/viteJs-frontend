@@ -20,7 +20,9 @@ export function HomepageComponent() {
   useEffect(() => {
     const fetchPhones = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/phones");
+        const response = await axios.get(
+          "https://nodejs-939i.onrender.com/phones"
+        );
         setPhones(response.data);
       } catch (error) {
         console.error("Error fetching phones:", error);

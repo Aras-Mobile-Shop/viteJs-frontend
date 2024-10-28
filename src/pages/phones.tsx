@@ -8,7 +8,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/phones";
+const API_URL = "https://nodejs-939i.onrender.com/phones";
 
 interface PhoneFormData {
   model: string;
