@@ -51,7 +51,7 @@ export default function LandingPage() {
             <span className="font-bold text-xl ">MobileShop</span>
           </Link>
           <nav className="hidden md:flex space-x-4 text-yellow-400">
-            <Link to="/shop" className="hover:underline">
+            <Link to="/" className="hover:underline">
               Shop
             </Link>
             <Link to="/about" className="hover:underline">
