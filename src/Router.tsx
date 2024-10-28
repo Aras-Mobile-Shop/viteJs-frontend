@@ -1,16 +1,16 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Admin } from "@/pages/Admin";
-import { Home } from "./pages/Home";
+import { HomepageComponent } from "./pages/homepage";
+import { Admin } from "./pages/Admin";
 
 const Routes = () => {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Admin />,
+      element: <HomepageComponent />,
     },
     {
       path: "/Home",
-      element: <Home />,
+      element: <Admin />,
     },
   ]);
 

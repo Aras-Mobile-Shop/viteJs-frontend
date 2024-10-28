@@ -9,6 +9,7 @@ interface Phone {
   model: string
   description: string
   price: number
+  image: string
 }
 
 export function HomepageComponent() {
@@ -37,6 +38,7 @@ export function HomepageComponent() {
         {phones.map((phone) => (
           <Card key={phone.id} className="cursor-pointer" onClick={() => openModal(phone)}>
             <CardContent className="p-4">
+              <img src={phone.image} alt={phone.model} className="w-full h-32 object-cover mb-2 rounded-md" />
               <h2 className="font-semibold">{phone.model}</h2>
               <p className="text-sm text-gray-500 mt-1">${phone.price}</p>
             </CardContent>
@@ -62,6 +64,7 @@ export function HomepageComponent() {
               >
                 <X className="h-4 w-4" />
               </Button>
+              <img src={selectedPhone.image} alt={selectedPhone.model} className="w-full h-48 object-cover mb-4 rounded-md" />
               <h2 className="text-xl font-semibold mb-2">{selectedPhone.model}</h2>
               <p className="text-gray-600 mb-4">{selectedPhone.description}</p>
               <p className="text-lg font-bold">${selectedPhone.price}</p>
