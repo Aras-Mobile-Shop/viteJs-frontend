@@ -1,73 +1,108 @@
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { v4 as uuidv4 } from 'uuid'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Label } from "@/components/ui/label"
-import { toast, ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { v4 as uuidv4 } from "uuid";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface PhoneFormData {
-  model: string
-  description: string
-  price: number
-  image: FileList
+  model: string;
+  description: string;
+  price: number;
+  image: FileList;
+}
+
+interface Phone extends Omit<PhoneFormData, "image"> {
+  id: string;
+  image: string;
 }
 
 export function Admin() {
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<PhoneFormData>()
-  const [imagePreview, setImagePreview] = useState<string | null>(null)
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    formState: { errors },
+  } = useForm<PhoneFormData>();
+  const [phones, setPhones] = useState<Phone[]>([]);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-  const onSubmit = async (data: PhoneFormData) => {
-    const file = data.image[0]
-    const reader = new FileReader()
+  useEffect(() => {
+    const existingPhones = JSON.parse(localStorage.getItem("phones") || "[]");
+    setPhones(existingPhones);
+  }, []);
+
+  const saveToLocalStorage = (updatedPhones: Phone[]) => {
+    localStorage.setItem("phones", JSON.stringify(updatedPhones));
+    setPhones(updatedPhones);
+  };
+
+  const onSubmit = (data: PhoneFormData) => {
+    const file = data.image[0];
+    const reader = new FileReader();
 
     reader.onloadend = () => {
       const newPhone = {
-        id: uuidv4(),
+        id: editingId || uuidv4(),
         model: data.model,
         description: data.description,
         price: data.price,
-        image: reader.result as string
-      }
+        image: reader.result as string,
+      };
 
-      const existingPhones = JSON.parse(localStorage.getItem('phones') || '[]')
-      const updatedPhones = [...existingPhones, newPhone]
-      localStorage.setItem('phones', JSON.stringify(updatedPhones))
+      const updatedPhones = editingId
+        ? phones.map((phone) => (phone.id === editingId ? newPhone : phone))
+        : [...phones, newPhone];
 
-      toast.success('Phone added successfully!', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      })
-
-      reset()
-      setImagePreview(null)
-    }
+      saveToLocalStorage(updatedPhones);
+      toast.success(
+        editingId ? "Phone updated successfully!" : "Phone added successfully!"
+      );
+      reset();
+      setImagePreview(null);
+      setEditingId(null);
+    };
 
     if (file) {
-      reader.readAsDataURL(file)
+      reader.readAsDataURL(file);
     }
-  }
+  };
+
+  const handleEdit = (phone: Phone) => {
+    setEditingId(phone.id);
+    setValue("model", phone.model);
+    setValue("description", phone.description);
+    setValue("price", phone.price);
+    setImagePreview(phone.image);
+  };
+
+  const handleDelete = (id: string) => {
+    const updatedPhones = phones.filter((phone) => phone.id !== id);
+    saveToLocalStorage(updatedPhones);
+    toast.success("Phone deleted successfully!");
+  };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
+    const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader()
+      const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePreview(reader.result as string)
-      }
-      reader.readAsDataURL(file)
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
     }
-  }
+  };
 
   return (
     <div className="container mx-auto p-4 max-w-md">
-      <h1 className="text-2xl font-bold mb-4">Add New Phone</h1>
+      <h1 className="text-2xl font-bold mb-4">
+        {editingId ? "Edit Phone" : "Add New Phone"}
+      </h1>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
           <Label htmlFor="model">Model</Label>
@@ -76,16 +111,24 @@ export function Admin() {
             {...register("model", { required: "Model is required" })}
             placeholder="Phone Model"
           />
-          {errors.model && <p className="text-red-500 text-sm mt-1">{errors.model.message}</p>}
+          {errors.model && (
+            <p className="text-red-500 text-sm mt-1">{errors.model.message}</p>
+          )}
         </div>
         <div>
           <Label htmlFor="description">Description</Label>
           <Textarea
             id="description"
-            {...register("description", { required: "Description is required" })}
+            {...register("description", {
+              required: "Description is required",
+            })}
             placeholder="Description"
           />
-          {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>}
+          {errors.description && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.description.message}
+            </p>
+          )}
         </div>
         <div>
           <Label htmlFor="price">Price</Label>
@@ -95,7 +138,9 @@ export function Admin() {
             {...register("price", { required: "Price is required", min: 0 })}
             placeholder="Price"
           />
-          {errors.price && <p className="text-red-500 text-sm mt-1">{errors.price.message}</p>}
+          {errors.price && (
+            <p className="text-red-500 text-sm mt-1">{errors.price.message}</p>
+          )}
         </div>
         <div>
           <Label htmlFor="image">Product Image</Label>
@@ -103,17 +148,58 @@ export function Admin() {
             id="image"
             type="file"
             accept="image/*"
-            {...register("image", { required: "Image is required" })}
+            {...register("image", {
+              required: !editingId && "Image is required",
+            })}
             onChange={handleImageChange}
           />
-          {errors.image && <p className="text-red-500 text-sm mt-1">{errors.image.message}</p>}
+          {errors.image && (
+            <p className="text-red-500 text-sm mt-1">{errors.image.message}</p>
+          )}
           {imagePreview && (
-            <img src={imagePreview} alt="Preview" className="mt-2 max-w-full h-auto rounded-md" />
+            <img
+              src={imagePreview}
+              alt="Preview"
+              className="mt-2 max-w-full h-auto rounded-md"
+            />
           )}
         </div>
-        <Button type="submit" className="w-full">Add Phone</Button>
+        <Button type="submit" className="w-full">
+          {editingId ? "Update Phone" : "Add Phone"}
+        </Button>
       </form>
+
+      <h2 className="text-xl font-bold mt-6 mb-4">Phone List</h2>
+      <ul>
+        {phones.map((phone) => (
+          <li
+            key={phone.id}
+            className="flex items-center justify-between mb-4 p-2 border rounded"
+          >
+            <div>
+              <h3 className="font-semibold">{phone.model}</h3>
+              <p>{phone.description}</p>
+              <p>Price: {phone.price}</p>
+            </div>
+            <div className="space-x-2">
+              <Button
+                onClick={() => handleEdit(phone)}
+                className="text-blue-500"
+              >
+                Edit
+              </Button>
+              <Button
+                onClick={() => handleDelete(phone.id)}
+                className="text-red-500"
+              >
+                Delete
+              </Button>
+            </div>
+          </li>
+        ))}
+      </ul>
+
       <ToastContainer />
     </div>
-  )
+  );
 }
