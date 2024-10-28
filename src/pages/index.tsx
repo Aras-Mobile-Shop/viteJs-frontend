@@ -79,7 +79,7 @@ export default function LandingPage() {
             className="md:hidden bg-primary text-primary-foreground py-2"
           >
             <nav className="flex flex-col items-center space-y-2">
-              <Link to="/shop" className="hover:underline" onClick={toggleMenu}>
+              <Link to="/" className="hover:underline" onClick={toggleMenu}>
                 Shop
               </Link>
               <Link
