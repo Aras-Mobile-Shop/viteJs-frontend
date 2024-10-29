@@ -29,7 +29,7 @@ export function Header() {
             <Link to="/about" className="hover:underline">
               About
             </Link>
-            <Link to="/contact" className="hover:underline">
+            <Link to="/contactUs" className="hover:underline">
               Contact
             </Link>
           </nav>
@@ -62,7 +62,7 @@ export function Header() {
                 About
               </Link>
               <Link
-                to="/contact"
+                to="/contactUs"
                 className="hover:underline"
                 onClick={toggleMenu}
               >
