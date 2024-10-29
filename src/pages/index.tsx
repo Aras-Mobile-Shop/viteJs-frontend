@@ -48,7 +48,7 @@ export default function LandingPage() {
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <Link to="/" className="flex items-center space-x-2">
             <ShoppingBag className="h-6 w-6" />
-            <span className="font-bold text-xl ">MobileShop</span>
+            <span className="font-bold text-xl ">Aras-Mobiles</span>
           </Link>
           <nav className="hidden md:flex space-x-4 text-yellow-400">
             <Link to="/" className="hover:underline">
@@ -204,7 +204,7 @@ export default function LandingPage() {
         </section>
 
         {/* CTA section */}
-        <section className="py-16 bg-primary text-primary-foreground">
+        <section className="py-16 bg-slate-300 text-primary-foreground">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-3xl font-bold mb-4">
               Ready to Upgrade Your Phone?
@@ -261,14 +261,16 @@ export default function LandingPage() {
                   placeholder="Your email"
                   className="flex-grow px-4 py-2 rounded-l-md focus:outline-none focus:ring-2 focus:ring-primary"
                 />
-                <Button type="submit" className="rounded-l-none">
+                <Button type="submit" className="rounded-l-none bg-slate-400">
                   Subscribe
                 </Button>
               </form>
             </div>
           </div>
           <div className="mt-8 text-center">
-            <p>&copy; 2023 MobileShop. All rights reserved.</p>
+            <p>
+              &copy; {new Date().getFullYear()} MobileShop. All rights reserved.
+            </p>
           </div>
         </div>
       </footer>
