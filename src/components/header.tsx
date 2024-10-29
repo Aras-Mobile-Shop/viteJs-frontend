@@ -32,6 +32,9 @@ export function Header() {
             <Link to="/contactUs" className="hover:underline">
               Contact
             </Link>
+            <Link to="/nav" className="hover:underline">
+              Explore
+            </Link>
           </nav>
           <Button
             variant="outline"
@@ -67,6 +70,9 @@ export function Header() {
                 onClick={toggleMenu}
               >
                 Contact
+              </Link>
+              <Link to="/nav" className="hover:underline" onClick={toggleMenu}>
+                Explore
               </Link>
             </nav>
           </motion.div>
