@@ -2,29 +2,29 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom"; // Update this line
+import { useNavigate } from "react-router-dom"; 
 import { Button } from "@/components/ui/button";
 import { Phone, Smartphone, Wrench, Mail, Home } from "lucide-react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 
 const choices = [
-  { name: "Home", icon: Home, path: "/" },
-  { name: "Phones", icon: Smartphone, path: "/phones" },
+  { name: "Home", icon: Home, path: "/home" },
+  { name: "Shop", icon: Smartphone, path: "/" },
   { name: "Accessories", icon: Phone, path: "/accessories" },
   { name: "Repair", icon: Wrench, path: "/repair" },
-  { name: "Contact Us", icon: Mail, path: "/contact" },
+  { name: "Contact Us", icon: Mail, path: "/contactUs" },
 ];
 
 export default function AnimationPage() {
-  const navigate = useNavigate(); // Update this line
+  const navigate = useNavigate(); 
   const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
 
   const handleChoice = (path: string) => {
     setSelectedChoice(path);
     setTimeout(() => {
-      navigate(path); // Update this line
-    }, 500); // Delay navigation to allow for exit animation
+      navigate(path); 
+    }, 1500); // Delay navigation to allow for exit animation
   };
 
   return (
