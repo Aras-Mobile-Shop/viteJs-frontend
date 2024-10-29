@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bg-tech {
+  background-image: url("https://e1.pxfuel.com/desktop-wallpaper/1018/315/desktop-wallpaper-black-3d-backgrounds-3d-black.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.footer-bg-tech {
+  background-image: url("https://wallpapercave.com/wp/wp7617144.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
