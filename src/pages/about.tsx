@@ -11,6 +11,7 @@ export default function About() {
   return (
     <>
       <Header />
+      {/* <div className=" p-4 bg-tech min-h-screen text-white"> */}
       <div className="min-h-screen bg-background">
         <main className="container mx-auto px-4 py-8">
           <h1 className="text-4xl font-bold text-center mb-8">
@@ -99,11 +100,14 @@ export default function About() {
               exciting, fast-paced industry, we want to hear from you!
             </p>
             <Button asChild>
-              <Link to="/contactUs" className="text-gray-100 bg-cyan-600">View Open Positions</Link>
+              <Link to="/contactUs" className="text-gray-100 bg-cyan-600">
+                View Open Positions
+              </Link>
             </Button>
           </div>
         </main>
       </div>
+      {/* </div> */}
       <Footer />
     </>
   );
