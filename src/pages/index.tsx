@@ -4,8 +4,6 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
-  ShoppingBag,
-  Menu,
   ChevronRight,
   Star,
   Phone,
@@ -25,7 +23,6 @@ interface Phone {
 }
 
 export default function LandingPage() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [featuredPhones, setFeaturedPhones] = useState<Phone[]>([]);
 
   useEffect(() => {
@@ -41,8 +38,6 @@ export default function LandingPage() {
 
     fetchPhones();
   }, []);
-
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -60,7 +55,7 @@ export default function LandingPage() {
               Discover the latest and greatest in mobile technology
             </p>
             <Button size="lg" asChild>
-              <Link to="/shop">
+              <Link to="/">
                 Shop Now <ChevronRight className="ml-2" />
               </Link>
             </Button>

@@ -188,7 +188,7 @@ export function Admin() {
               />
             )}
           </div>
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full bg-black text-gray-50">
             {editingId ? "Update Phone" : "Add Phone"}
           </Button>
         </form>
