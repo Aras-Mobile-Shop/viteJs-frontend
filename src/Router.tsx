@@ -3,6 +3,8 @@ import { HomepageComponent } from "./pages/homepage";
 import { Admin } from "./pages/phones";
 import LandingPage from "./pages/index";
 import AnimationPage from "./pages/nav";
+import About from "./pages/about";
+import ContactForm from "./pages/contactUs";
 
 const Routes = () => {
   const router = createBrowserRouter([
@@ -21,6 +23,14 @@ const Routes = () => {
     {
       path: "/nav",
       element: <AnimationPage />,
+    },
+    {
+      path: "/about",
+      element: <About />,
+    },
+    {
+      path: "/contactUs",
+      element: <ContactForm />,
     },
   ]);
 
