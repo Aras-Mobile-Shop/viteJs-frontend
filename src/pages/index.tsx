@@ -14,6 +14,9 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+import { Footer } from "@/components/footer";
+import { Header } from "@/components/header";
+
 interface Phone {
   id: string;
   model: string;
@@ -43,63 +46,7 @@ export default function LandingPage() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Header */}
-      <header className="bg-primary text-primary-foreground shadow-md text-stone-50">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <Link to="/" className="flex items-center space-x-2">
-            <ShoppingBag className="h-6 w-6" />
-            <span className="font-bold text-xl ">Aras-Mobiles</span>
-          </Link>
-          <nav className="hidden md:flex space-x-4 text-yellow-400">
-            <Link to="/" className="hover:underline">
-              Shop
-            </Link>
-            <Link to="/about" className="hover:underline">
-              About
-            </Link>
-            <Link to="/contact" className="hover:underline">
-              Contact
-            </Link>
-          </nav>
-          <Button
-            variant="outline"
-            size="icon"
-            className="md:hidden"
-            onClick={toggleMenu}
-          >
-            <Menu className="h-6 w-6" />
-          </Button>
-        </div>
-        {/* Mobile menu */}
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -50 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -50 }}
-            className="md:hidden bg-primary text-primary-foreground py-2"
-          >
-            <nav className="flex flex-col items-center space-y-2">
-              <Link to="/" className="hover:underline" onClick={toggleMenu}>
-                Shop
-              </Link>
-              <Link
-                to="/about"
-                className="hover:underline"
-                onClick={toggleMenu}
-              >
-                About
-              </Link>
-              <Link
-                to="/contact"
-                className="hover:underline"
-                onClick={toggleMenu}
-              >
-                Contact
-              </Link>
-            </nav>
-          </motion.div>
-        )}
-      </header>
+      <Header />
 
       {/* Main content */}
       <main className="flex-grow">
@@ -217,63 +164,8 @@ export default function LandingPage() {
             </Button>
           </div>
         </section>
+        <Footer />
       </main>
-
-      {/* Footer */}
-      <footer className="bg-secondary text-secondary-foreground py-8">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div>
-              <h3 className="font-bold text-lg mb-4">Quick Links</h3>
-              <nav className="flex flex-col space-y-2">
-                <Link to="/shop" className="hover:underline">
-                  Shop
-                </Link>
-                <Link to="/about" className="hover:underline">
-                  About Us
-                </Link>
-                <Link to="/contact" className="hover:underline">
-                  Contact
-                </Link>
-                <Link to="/terms" className="hover:underline">
-                  Terms of Service
-                </Link>
-                <Link to="/privacy" className="hover:underline">
-                  Privacy Policy
-                </Link>
-              </nav>
-            </div>
-            <div>
-              <h3 className="font-bold text-lg mb-4">Contact Us</h3>
-              <p>1234 Mobile Street</p>
-              <p>Phoneville, PH 56789</p>
-              <p>Email: info@mobileshop.com</p>
-              <p>Phone: (123) 456-7890</p>
-            </div>
-            <div>
-              <h3 className="font-bold text-lg mb-4">Newsletter</h3>
-              <p className="mb-4">
-                Subscribe to our newsletter for the latest updates and offers.
-              </p>
-              <form className="flex">
-                <input
-                  type="email"
-                  placeholder="Your email"
-                  className="flex-grow px-4 py-2 rounded-l-md focus:outline-none focus:ring-2 focus:ring-primary"
-                />
-                <Button type="submit" className="rounded-l-none bg-slate-400">
-                  Subscribe
-                </Button>
-              </form>
-            </div>
-          </div>
-          <div className="mt-8 text-center">
-            <p>
-              &copy; {new Date().getFullYear()} MobileShop. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

@@ -2,11 +2,9 @@
 
 import { Link } from "react-router-dom";
 
-export default function LandingPage() {
-
+export function Footer() {
   return (
-    <div className="min-h-screen flex flex-col">
-      
+    <>
       {/* Footer */}
       <footer className="bg-muted py-8 px-6">
         <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -20,16 +18,13 @@ export default function LandingPage() {
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <Link
-                  href="/"
-                  className="text-muted-foreground hover:underline"
-                >
+                <Link to="/" className="text-muted-foreground hover:underline">
                   Home
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/shop"
+                  to="/shop"
                   className="text-muted-foreground hover:underline"
                 >
                   Shop
@@ -37,7 +32,7 @@ export default function LandingPage() {
               </li>
               <li>
                 <Link
-                  href="/about"
+                  to="/about"
                   className="text-muted-foreground hover:underline"
                 >
                   About
@@ -45,7 +40,7 @@ export default function LandingPage() {
               </li>
               <li>
                 <Link
-                  href="/contact"
+                  to="/contact"
                   className="text-muted-foreground hover:underline"
                 >
                   Contact
@@ -58,7 +53,7 @@ export default function LandingPage() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="/faq"
+                  to="/faq"
                   className="text-muted-foreground hover:underline"
                 >
                   FAQ
@@ -66,7 +61,7 @@ export default function LandingPage() {
               </li>
               <li>
                 <Link
-                  href="/shipping"
+                  to="/shipping"
                   className="text-muted-foreground hover:underline"
                 >
                   Shipping
@@ -74,7 +69,7 @@ export default function LandingPage() {
               </li>
               <li>
                 <Link
-                  href="/returns"
+                  to="/returns"
                   className="text-muted-foreground hover:underline"
                 >
                   Returns
@@ -82,7 +77,7 @@ export default function LandingPage() {
               </li>
               <li>
                 <Link
-                  href="/warranty"
+                  to="/warranty"
                   className="text-muted-foreground hover:underline"
                 >
                   Warranty
@@ -135,9 +130,9 @@ export default function LandingPage() {
           </div>
         </div>
         <div className="mt-8 pt-8 border-t border-gray-200 text-center text-muted-foreground">
-          <p>&copy; 2023 MobileShop. All rights reserved.</p>
+          &copy; {new Date().getFullYear()} MobileShop. All rights reserved.
         </div>
       </footer>
-    </div>
+    </>
   );
 }
