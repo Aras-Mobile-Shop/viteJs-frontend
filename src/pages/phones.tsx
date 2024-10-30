@@ -10,7 +10,7 @@ import axios from "axios";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 
-const API_URL = "https://nodejs-939i.onrender.com/phones";
+const API_URL = "https://nodejsdatabases.onrender.com/phones";
 
 interface PhoneFormData {
   model: string;
@@ -40,7 +40,7 @@ export function Admin() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchPhones();
+    fetchPhones(); // Fetch data on component mount
   }, []);
 
   const fetchPhones = async () => {
@@ -116,7 +116,6 @@ export function Admin() {
   return (
     <>
       <Header />
-
       <div className="container mx-auto p-4 max-w-md">
         <h1 className="text-2xl font-bold mb-4">
           {editingId ? "Edit Phone" : "Add New Phone"}
@@ -222,7 +221,6 @@ export function Admin() {
             </li>
           ))}
         </ul>
-
         <ToastContainer />
       </div>
       <Footer />

@@ -9,4 +9,12 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  // optimizeDeps: {
+  //   exclude: ['fs'], // Exclude 'fs' module
+  // },
+  // build: {
+  //   rollupOptions: {
+  //     external: ['fs'], // Treat 'fs' as an external dependency to avoid bundling
+  //   },
+  // },
 });

@@ -28,7 +28,9 @@ export default function LandingPage() {
   useEffect(() => {
     const fetchPhones = async () => {
       try {
-        const response = await fetch("https://nodejs-939i.onrender.com/phones");
+        const response = await fetch(
+          "https://nodejsdatabases.onrender.com/phones"
+        );
         const allPhones = await response.json();
         setFeaturedPhones(allPhones.slice(0, 3));
       } catch (error) {

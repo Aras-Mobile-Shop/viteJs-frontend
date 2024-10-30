@@ -25,7 +25,7 @@ export function HomepageComponent() {
     const fetchPhones = async () => {
       try {
         const response = await axios.get(
-          "https://nodejs-939i.onrender.com/phones"
+          "https://nodejsdatabases.onrender.com/phones"
         );
         setPhones(response.data);
       } catch (error) {
